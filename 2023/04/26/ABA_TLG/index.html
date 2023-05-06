@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/img/post_imgs/data_analysis_banner_img.png">
 <meta property="article:published_time" content="2023-04-26T12:11:01.000Z">
-<meta property="article:modified_time" content="2023-05-06T07:37:54.382Z">
+<meta property="article:modified_time" content="2023-05-06T07:44:58.791Z">
 <meta property="article:author" content="Shijie Fang">
 <meta property="article:tag" content="Graphene">
 <meta property="article:tag" content="Band_Structure">
@@ -1346,10 +1346,14 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p>[12] <a target="_blank" rel="noopener" href="https://www.pnas.org/doi/10.1073/pnas.1820835116">Quantum parity Hall effect in Bernal-stacked trilayer graphene | PNAS</a></p>
 <h2 id="Simulation-Codes">Simulation Codes</h2>
 <h3 id="Band-Structure">Band Structure</h3>
-<div id="echarts880" style="width: 85%;height: 400px;margin: 0 auto"></div>
+<div id="echarts4239" style="width: 85%;height: 400px;margin: 0 auto"></div>
+<!-- 通过jsDelivr的CDN引入echarts -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js"></script>
+<!-- 使用GL里的各种组件时需要添加，否则可不需要 -->
+<script src="https://cdn.jsdelivr.net/npm/echarts-gl@1.1.1/dist/echarts-gl.min.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts880'));
+        var myChart = echarts.init(document.getElementById('echarts4239'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -1514,18 +1518,12 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/26/data_analysis/" title="Data Analysis (I)">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Data Analysis (I)</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/26/hello-world/" title="Hello World">
-                        <span class="hidden-mobile">Hello World</span>
+                      <a href="/2023/04/26/MLG/" title="Monolayer Graphene">
+                        <span class="hidden-mobile">Monolayer Graphene</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
