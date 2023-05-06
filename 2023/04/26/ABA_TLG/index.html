@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/img/post_imgs/data_analysis_banner_img.png">
 <meta property="article:published_time" content="2023-04-26T12:11:01.000Z">
-<meta property="article:modified_time" content="2023-05-05T06:12:03.360Z">
+<meta property="article:modified_time" content="2023-05-06T07:37:54.382Z">
 <meta property="article:author" content="Shijie Fang">
 <meta property="article:tag" content="Graphene">
 <meta property="article:tag" content="Band_Structure">
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          17k words
+          18k words
         
       </span>
     
@@ -261,7 +261,7 @@
         
         
         
-          145 mins
+          151 mins
         
       </span>
     
@@ -1346,6 +1346,77 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p>[12] <a target="_blank" rel="noopener" href="https://www.pnas.org/doi/10.1073/pnas.1820835116">Quantum parity Hall effect in Bernal-stacked trilayer graphene | PNAS</a></p>
 <h2 id="Simulation-Codes">Simulation Codes</h2>
 <h3 id="Band-Structure">Band Structure</h3>
+<div id="echarts880" style="width: 85%;height: 400px;margin: 0 auto"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts880'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        data:['利润', '支出', '收入']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    yAxis : [
+        {
+            type : 'category',
+            axisTick : {show: false},
+            data : ['周一','周二','周三','周四','周五','周六','周日']
+        }
+    ],
+    series : [
+        {
+            name:'利润',
+            type:'bar',
+            itemStyle : {
+                normal: {
+                    label: {show: true, position: 'inside'}
+                }
+            },
+            data:[200, 170, 240, 244, 200, 220, 210]
+        },
+        {
+            name:'收入',
+            type:'bar',
+            stack: '总量',
+            itemStyle: {
+                normal: {
+                    label : {show: true}
+                }
+            },
+            data:[320, 302, 341, 374, 390, 450, 420]
+        },
+        {
+            name:'支出',
+            type:'bar',
+            stack: '总量',
+            itemStyle: {normal: {
+                label : {show: true, position: 'left'}
+            }},
+            data:[-120, -132, -101, -134, -190, -230, -210]
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
 <h3 id="Landau-Level">Landau Level</h3>
 <h3 id="Hartree-Fock-Simulation">Hartree Fock Simulation</h3>
 <p>Above introduce the single-particle simulation of tri-layer ABA graphene, if you are interested in the Hartree Fock simulation of it, please click the link to the page.</p>
@@ -1443,12 +1514,18 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2023/04/26/data_analysis/" title="Data Analysis (I)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Data Analysis (I)</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/26/MLG/" title="Monolayer Graphene">
-                        <span class="hidden-mobile">Monolayer Graphene</span>
+                      <a href="/2023/04/26/hello-world/" title="Hello World">
+                        <span class="hidden-mobile">Hello World</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
