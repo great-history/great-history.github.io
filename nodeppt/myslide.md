@@ -2,6 +2,7 @@ title: nodeppt - 这可能是迄今为止最好的网页版演示库
 speaker: 三水清
 url: https://github.com/ksky521/nodeppt
 js:
+
     - https://echarts.cdn.apache.org/zh/asset/theme/infographic.js
     plugins:
         - echarts: {theme: infographic}
@@ -22,6 +23,8 @@ js:
 
 ---
 
+在个人博客文件夹的根目录下打开Git Bash，输入命令
+
 `npm install -g nodeppt` {.animated.fadeInUp}
 
 <slide :class="size-40 aligncenter">
@@ -29,6 +32,8 @@ js:
 ### Commands
 
 ---
+
+在根目录下的public文件夹中新建一个名为nodeppt的子文件夹
 
 ```shell {.animated.fadeInUp}
  # create a new slide with an official template
