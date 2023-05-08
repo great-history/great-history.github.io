@@ -3,14 +3,14 @@ speaker: 三水清
 url: https://github.com/ksky521/nodeppt
 js:
     - https://echarts.cdn.apache.org/zh/asset/theme/infographic.js
-plugins:
-    - echarts: {theme: infographic}
-    - mermaid: {theme: forest}
-    - katex
+    plugins:
+        - echarts: {theme: infographic}
+            - mermaid: {theme: forest}
+            - katex
 
 <slide class="bg-black-blue aligncenter" image="https://cn.bing.com/az/hprichbg/rb/RainierDawn_EN-AU3730494945_1920x1080.jpg .dark">
 
-# ABA_TLG_2023 {.text-landing.text-shadow}
+# 在Hexo-fluid主题中如何使用nodeppt{.text-landing.text-shadow}
 
 这可能是迄今为止最好的网页版演示库 {.text-intro.animated.fadeInUp.delay-500}
 
