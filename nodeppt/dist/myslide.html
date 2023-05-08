@@ -1,0 +1,41 @@
+<!doctype html><html><head><meta charset=UTF-8><title>nodeppt - 这可能是迄今为止最好的网页版演示库 - By 三水清</title><link rel=stylesheet href=https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css><link rel=stylesheet href=https://cdn.staticfile.org/prism/1.15.0/themes/prism.min.css><link rel=stylesheet href=https://cdn.staticfile.org/KaTeX/0.10.0-rc.1/katex.min.css><link rel=stylesheet href=https://cdn.staticfile.org/KaTeX/0.5.1/katex.min.css><link href=./css/chunk-vendors.4e4765ff.css rel=stylesheet></head><body><div><article id=webslides><section slide class="slide bg-black-blue aligncenter" image="https://cn.bing.com/az/hprichbg/rb/RainierDawn_EN-AU3730494945_1920x1080.jpg .dark"><span class="background dark" style="background-image:url('https://cn.bing.com/az/hprichbg/rb/RainierDawn_EN-AU3730494945_1920x1080.jpg')"></span><div class=wrap wrap=true><h1 class="text-landing text-shadow">ABA_TLG_2023</h1><p class="text-intro animated fadeInUp delay-500">这可能是迄今为止最好的网页版演示库</p><p><a href=https://github.com/ksky521/nodeppt class="button ghost animated flipInX delay-1200" target=_blank><i class="fa fa-github"></i> Github</a></p></div></section><section slide class=slide :class="size-30 aligncenter"><div class="wrap size-30 aligncenter" wrap=true><h3>Install</h3><hr><p class="animated fadeInUp"><code>npm install -g nodeppt</code></p></div></section><section slide class=slide :class="size-40 aligncenter"><div class="wrap size-40 aligncenter" wrap=true><h3>Commands</h3><hr><pre class="animated fadeInUp language-textile language-textile"><code class="animated fadeInUp language-textile"> # create a new slide with an official template
+<span class="token phrase">$ nodeppt new slide.md</span>
+
+<span class="token phrase"><span class="token list"><span class="token punctuation">#</span> create a new slide straight from a github template</span>
+$ nodeppt new slide.md -t username/repo</span>
+
+<span class="token phrase"><span class="token list"><span class="token punctuation">#</span> start local sever show slide</span>
+$ nodeppt serve slide.md</span>
+
+<span class="token phrase"><span class="token list"><span class="token punctuation">#</span> to build a slide</span>
+$ nodeppt build slide.md
+</span></code></pre></div></section></article></div><script src=https://cdn.staticfile.org/echarts/4.8.0/echarts.min.js></script><script src=https://cdn.staticfile.org/mermaid/8.5.2/mermaid.min.js></script><script>mermaid.startOnLoad = false;</script><script src=https://echarts.cdn.apache.org/zh/asset/theme/infographic.js></script><script>window.pluginsOptions = {"echarts":{"theme":"infographic"},"mermaid":{"theme":"forest"}}
+
+
+
+    window.webslidesOptions = {}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    let isPrintMode = false;
+    if(~location.search.indexOf('print-pdf')){
+        isPrintMode = true;
+        WebSlides.registerPlugin('scroll', function(){});
+    }
+    const wsOptions = {
+        loop: false
+    };
+    if(window.webslidesOptions){
+        for (let i in webslidesOptions){
+            if(webslidesOptions.hasOwnProperty(i)){
+                wsOptions[i] = webslidesOptions[i];
+            }
+        }
+    }
+    const ws = new WebSlides(wsOptions)
+
+    window.wsInstance = ws;
+    if(isPrintMode){
+        ws.slides.forEach(s=>s.show())
+    }
+}, false)</script><script src=./js/chunk-vendors.js></script><script src=./js/myslide.js></script></body></html>
