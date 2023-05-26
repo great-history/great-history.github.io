@@ -33,7 +33,7 @@ js:
 
 ---
 
-在根目录下的public文件夹中新建一个名为nodeppt的子文件夹
+在根目录下的public文件夹中新建一个名为nodeppt的子文件夹，然后对这个文件夹进行右键Git Bash（一定要在这个文件夹下进行）
 
 ```shell {.animated.fadeInUp}
  # create a new slide with an official template
@@ -48,4 +48,6 @@ $ nodeppt serve slide.md
 # to build a slide
 $ nodeppt build slide.md
 ```
+
+每次修改完之后要重新build一下
 
