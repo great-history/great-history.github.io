@@ -1,0 +1,962 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shijie Fang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Some simple simulation &#x2F; visualization codes of band structure of ABA tri-layer graphene.   continuum model of band structure the ABA-TLG continuum model can be transformed into a monolayer-like part">
+<meta property="og:type" content="article">
+<meta property="og:title" content="some codes about ABA-TLG">
+<meta property="og:url" content="http://example.com/2023/04/26/ABA_tLG_sim/index.html">
+<meta property="og:site_name" content="Shijie Fang&#39;s Blog">
+<meta property="og:description" content="Some simple simulation &#x2F; visualization codes of band structure of ABA tri-layer graphene.   continuum model of band structure the ABA-TLG continuum model can be transformed into a monolayer-like part">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/post_imgs/data_analysis_banner_img.png">
+<meta property="article:published_time" content="2023-04-26T12:11:01.000Z">
+<meta property="article:modified_time" content="2023-08-14T11:41:08.175Z">
+<meta property="article:author" content="Shijie Fang">
+<meta property="article:tag" content="Graphene">
+<meta property="article:tag" content="Band_Structure">
+<meta property="article:tag" content="Landau_Level_Calculation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/post_imgs/data_analysis_banner_img.png">
+  
+  
+  
+  <title>some codes about ABA-TLG - Shijie Fang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Welcome to Shijie Fang&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>Links</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/photos/">
+                <i class="iconfont icon-images"></i>
+                <span>photos</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post_imgs/data_analysis_banner_img.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="some codes about ABA-TLG"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-26 20:11" pubdate>
+          April 26, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          15k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          126 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">some codes about ABA-TLG</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Some simple simulation / visualization codes of band structure of ABA tri-layer graphene.</p>
+<ol start="0">
+<li>
+<h4 id="continuum-model-of-band-structure">continuum model of band structure</h4>
+<p>the ABA-TLG continuum model can be transformed into a monolayer-like part and a bilayer-like part.</p>
+<p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>H</mi><mi>t</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>H</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mi>D</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msup><mi>D</mi><mo lspace="0em" rspace="0em">†</mo></msup></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>H</mi><mi>b</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow><mspace linebreak="newline" height="2em"></mspace></mrow><annotation encoding="application/x-tex">H_t(\mathbf{k}) = \begin{pmatrix}
+					H_m(\mathbf{k}) &amp; D \\
+					D^{\dagger} &amp; H_b(\mathbf{k}) \\
+				  \end{pmatrix}\\[20pt]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4091em;vertical-align:-0.9546em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4546em;"><span style="top:-3.6146em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-2.4054em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">†</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9546em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4546em;"><span style="top:-3.6146em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span><span style="top:-2.4054em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9546em;"><span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span><span class="mspace newline" style="margin-top:2em;"></span></span></span></span></p>
+<p>where,</p>
+<p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mstyle mathsize="0.9em"><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><msub><mi>H</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo><mo>=</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><msub><mi>γ</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mn>2</mn><mo>+</mo><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>0</mn></msub><msup><mi>f</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>0</mn></msub><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>δ</mi><mo>−</mo><msub><mi>γ</mi><mn>5</mn></msub><mi mathvariant="normal">/</mi><mn>2</mn><mo>+</mo><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub></mrow></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><msub><mi>H</mi><mi>b</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo><mo>=</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center center center center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>2</mn></msub><mi mathvariant="normal">/</mi><mn>2</mn><mo>+</mo><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>0</mn></msub><msup><mi>f</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>4</mn></msub><msup><mi>f</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>3</mn></msub><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>0</mn></msub><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>δ</mi><mo>+</mo><msub><mi>γ</mi><mn>5</mn></msub><mi mathvariant="normal">/</mi><mn>2</mn><mo>+</mo><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>1</mn></msub></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>4</mn></msub><msup><mi>f</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>4</mn></msub><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>1</mn></msub></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>δ</mi><mo>−</mo><mn>2</mn><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>0</mn></msub><msup><mi>f</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>3</mn></msub><msup><mi>f</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><msqrt><mn>2</mn></msqrt><msub><mi>γ</mi><mn>4</mn></msub><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>γ</mi><mn>0</mn></msub><mi>f</mi><mo stretchy="false">(</mo><mi mathvariant="bold">k</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><mn>2</mn><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub></mrow></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>D</mi><mo>=</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center center center center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr></mtable></mstyle></mrow><annotation encoding="application/x-tex">{\small
+	\begin{align}
+H_m(\mathbf{k}) =&amp; \begin{pmatrix}
+					-\gamma_2/2 + \Delta_2 &amp; \gamma_0 f^{*}(\mathbf{k}) \\
+					\gamma_0 f(\mathbf{k}) &amp; \delta - \gamma_5 / 2 + \Delta_2 \\
+				  \end{pmatrix} \\
+\nonumber \\
+H_b(\mathbf{k}) =&amp; \begin{pmatrix}
+			 \gamma_2/2 + \Delta_2 &amp; \gamma_0 f^{*}(\mathbf{k}) &amp;
+			-\sqrt{2}\gamma_4f^{*}(\mathbf{k}) &amp; \sqrt{2}\gamma_3f(\mathbf{k}) \\
+			 
+			 \gamma_0 f(\mathbf{k}) &amp; \delta + \gamma_5 / 2 + \Delta_2 &amp;
+			 \sqrt{2}\gamma_1 &amp; -\sqrt{2}\gamma_4f^{*}(\mathbf{k}) \\
+			 
+		     -\sqrt{2}\gamma_4f(\mathbf{k}) &amp; \sqrt{2}\gamma_1 &amp;
+		     \delta - 2 \Delta_2 &amp; \gamma_0 f^{*}(\mathbf{k}) \\
+		     
+		     \sqrt{2}\gamma_3f^{*}\mathbf{k}) &amp; -\sqrt{2}\gamma_4f(\mathbf{k}) &amp;
+		     \gamma_0 f(\mathbf{k}) &amp; -2\Delta_2	     
+				  \end{pmatrix} \\
+\nonumber \\
+D =&amp; \begin{pmatrix}
+		\Delta_1 &amp; 0 &amp; 0 &amp; 0 \\
+		0 &amp; \Delta_1 &amp; 0 &amp; 0
+	\end{pmatrix}
+\end{align}
+}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:12.8721em;vertical-align:-6.211em;"></span><span class="mord"><span class="mtable sizing reset-size6 size5"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:7.4011em;"><span style="top:-10.5995em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.137em;"><span style="top:-2.45em;margin-left:-0.0813em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span><span style="top:-8.3789em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"></span></span><span style="top:-4.9344em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.313em;"><span style="top:-2.45em;margin-left:-0.0813em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span><span style="top:-1.51em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"></span></span><span style="top:0.7361em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:6.9011em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:7.4011em;"><span style="top:-10.5995em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen sizing reset-size5 size6 delimcenter" style="top:0.025em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.51em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">−</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.31em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.51em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6732em;"><span style="top:-2.963em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-2.31em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span></span></span><span class="mclose sizing reset-size5 size6 delimcenter" style="top:0.025em;"><span class="delimsizing size3">)</span></span></span></span></span><span style="top:-4.9344em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen sizing reset-size5 size6"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.325em;"><span style="top:-4.325em;"><span class="pstrut" style="height:6.2em;"></span><span style="width:0.875em;height:4.200em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.875em' height='4.200em' viewBox='0 0 875 4200'><path d='M863,9c0,-2,-2,-5,-6,-9c0,0,-17,0,-17,0c-12.7,0,-19.3,0.3,-20,1
+c-5.3,5.3,-10.3,11,-15,17c-242.7,294.7,-395.3,682,-458,1162c-21.3,163.3,-33.3,349,
+-36,557 l0,684c0.2,6,0,26,0,60c2,159.3,10,310.7,24,454c53.3,528,210,
+949.7,470,1265c4.7,6,9.7,11.7,15,17c0.7,0.7,7,1,19,1c0,0,18,0,18,0c4,-4,6,-7,6,-9
+c0,-2.7,-3.3,-8.7,-10,-18c-135.3,-192.7,-235.5,-414.3,-300.5,-665c-65,-250.7,-102.5,
+-544.7,-112.5,-882c-2,-104,-3,-167,-3,-189
+l0,-692c0,-162.7,5.7,-314,17,-454c20.7,-272,63.7,-513,129,-723c65.3,
+-210,155.3,-396.3,270,-559c6.7,-9.3,10,-15.3,10,-18z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.875em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.7844em;"><span style="top:-4.7844em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.5172em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord">−</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-0.9828em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6732em;"><span style="top:-2.963em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.2844em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.7844em;"><span style="top:-4.7844em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6732em;"><span style="top:-2.963em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-3.5172em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-0.9828em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord">−</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.2844em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.7844em;"><span style="top:-4.7844em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord">−</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6732em;"><span style="top:-2.963em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-3.5172em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">2</span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-0.9828em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.2844em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.7844em;"><span style="top:-4.7844em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-3.5172em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord">−</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6732em;"><span style="top:-2.963em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:-0.0556em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6732em;"><span style="top:-2.963em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">k</span><span class="mclose">)</span></span></span><span style="top:-0.9828em;"><span class="pstrut" style="height:2.9072em;"></span><span class="mord"><span class="mord">−</span><span class="mord">2</span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.2844em;"><span></span></span></span></span></span></span></span><span class="mclose sizing reset-size5 size6"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.325em;"><span style="top:-4.325em;"><span class="pstrut" style="height:6.2em;"></span><span style="width:0.875em;height:4.200em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.875em' height='4.200em' viewBox='0 0 875 4200'><path d='M76,0c-16.7,0,-25,3,-25,9c0,2,2,6.3,6,13c21.3,28.7,42.3,60.3,
+63,95c96.7,156.7,172.8,332.5,228.5,527.5c55.7,195,92.8,416.5,111.5,664.5
+c11.3,139.3,17,290.7,17,454c0,28,1.7,43,3.3,45l0,609
+c-3,4,-3.3,16.7,-3.3,38c0,162,-5.7,313.7,-17,455c-18.7,248,-55.8,469.3,-111.5,664
+c-55.7,194.7,-131.8,370.3,-228.5,527c-20.7,34.7,-41.7,66.3,-63,95c-2,3.3,-4,7,-6,11
+c0,7.3,5.7,11,17,11c0,0,11,0,11,0c9.3,0,14.3,-0.3,15,-1c5.3,-5.3,10.3,-11,15,-17
+c242.7,-294.7,395.3,-681.7,458,-1161c21.3,-164.7,33.3,-350.7,36,-558
+l0,-744c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
+-470,-1265c-4.7,-6,-9.7,-11.7,-15,-17c-0.7,-0.7,-6.7,-1,-18,-1z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.875em;"><span></span></span></span></span></span></span></span></span></span><span style="top:0.7361em;"><span class="pstrut" style="height:4.7844em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen sizing reset-size5 size6 delimcenter" style="top:0.025em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.51em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.31em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.51em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">0</span></span></span><span style="top:-2.31em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2796em;"><span style="top:-2.45em;margin-left:0em;margin-right:0.0556em;"><span class="pstrut" style="height:2.6em;"></span><span class="sizing reset-size5 size2 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.51em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">0</span></span></span><span style="top:-2.31em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.51em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">0</span></span></span><span style="top:-2.31em;"><span class="pstrut" style="height:2.9em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span></span></span><span class="mclose sizing reset-size5 size6 delimcenter" style="top:0.025em;"><span class="delimsizing size3">)</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:6.9011em;"><span></span></span></span></span></span></span><span class="tag sizing reset-size6 size5"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:7.4011em;"><span style="top:-10.5995em;"><span class="pstrut" style="height:4.7844em;"></span><span class="eqn-num"></span></span><span style="top:-8.3789em;"><span class="pstrut" style="height:4.7844em;"></span><span></span></span><span style="top:-4.9344em;"><span class="pstrut" style="height:4.7844em;"></span><span class="eqn-num"></span></span><span style="top:-1.51em;"><span class="pstrut" style="height:4.7844em;"></span><span></span></span><span style="top:0.7361em;"><span class="pstrut" style="height:4.7844em;"></span><span class="eqn-num"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:6.9011em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+ <div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        Construct continuum model
+    </div>
+    <div class='spoiler-content'>
+        <h6 id="ABA-TLG-continuum-model-MLG-BLG">ABA-TLG continuum model = MLG + BLG</h6>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[HK_m_ham, HKp_m_ham, HK_b_ham, HKp_b_ham]</span> = <span class="hljs-title">construct_trilayer_ABA_six_bands_continuum_model</span><span class="hljs-params">(gamma0, gamma1, gamma2, gamma3, gamma4, gamma5, delta, Delta2, akx, aky)</span></span><br>    on_site_params_m = [- gamma2 / <span class="hljs-number">2</span> + Delta2, delta - gamma5 / <span class="hljs-number">2</span> + Delta2];<br>    on_site_params_b = [gamma2 / <span class="hljs-number">2</span> + Delta2, delta + gamma5 / <span class="hljs-number">2</span> + Delta2, delta - <span class="hljs-number">2</span> * Delta2, - <span class="hljs-number">2</span> * Delta2];<br>    [HK_m_ham, HKp_m_ham] = construct_monolayer_continuum_model(gamma0, on_site_params_m, akx, aky);<br>    [HK_b_ham, HKp_b_ham] = construct_bilayer_continuum_model(gamma0, <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>) * gamma1, <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>) * gamma3, <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>) * gamma4, on_site_params_b, akx, aky);<br>    <br>    hem1 = helper_check_hermite(HK_m_ham, <span class="hljs-number">1e-8</span>);<br>    hem2 = helper_check_hermite(HKp_m_ham,<span class="hljs-number">1e-8</span>);<br>    hem3 = helper_check_hermite(HK_b_ham,<span class="hljs-number">1e-8</span>);<br>    hem4 = helper_check_hermite(HKp_b_ham,<span class="hljs-number">1e-8</span>);<br>    <span class="hljs-keyword">if</span> hem1 == <span class="hljs-number">0</span> || hem2 == <span class="hljs-number">0</span> || hem3 == <span class="hljs-number">0</span> || hem4 == <span class="hljs-number">0</span><br>        <span class="hljs-built_in">disp</span>(<span class="hljs-string">&quot;the Hamiltonian is not hermitian&quot;</span>)<br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+<h6 id="MLG-continuum-model">MLG continuum model</h6>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[HK_ham, HKp_ham]</span> = <span class="hljs-title">construct_monolayer_continuum_model</span><span class="hljs-params">(gamma0, on_site_params, akx, aky)</span></span><br>    HK_ham = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>);<br>    HKp_ham = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>);<br>    h0 = - <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">3</span>) / <span class="hljs-number">2</span> * gamma0 * (akx - <span class="hljs-number">1</span><span class="hljs-built_in">j</span> * aky);<br>    <br>    HK_ham(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) = <span class="hljs-built_in">conj</span>(h0);<br>    HK_ham(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>) = h0;<br>    HK_ham = HK_ham + <span class="hljs-built_in">diag</span>(on_site_params);<br>    <br>    HKp_ham(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) = - h0;<br>    HKp_ham(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>) = - <span class="hljs-built_in">conj</span>(h0);<br>    HKp_ham = HKp_ham + <span class="hljs-built_in">diag</span>(on_site_params);<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+<h6 id="BLG-continuum-model">BLG continuum model</h6>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[HK_ham, HKp_ham]</span> = <span class="hljs-title">construct_bilayer_continuum_model</span><span class="hljs-params">(gamma0, gamma1, gamma3, gamma4, on_site_params, akx, aky)</span></span><br>    <span class="hljs-comment">% ext_mat : 描述外界引入的项，包括 电位移场 / Ising SOCs</span><br>    <span class="hljs-comment">%% 构造哈密顿量（紧束缚模型）</span><br>    <span class="hljs-comment">% 不包括除了delta之外的onsite potential</span><br>    <span class="hljs-comment">% basis : A1, B1, A2, B2</span><br>    h0 = - <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">3</span>) / <span class="hljs-number">2</span> * gamma0 * (akx - <span class="hljs-number">1</span><span class="hljs-built_in">j</span> * aky);<br>    h3 = - <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">3</span>) / <span class="hljs-number">2</span> * gamma3 * (akx - <span class="hljs-number">1</span><span class="hljs-built_in">j</span> * aky);<br>    h4 = - <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">3</span>) / <span class="hljs-number">2</span> * gamma4 * (akx - <span class="hljs-number">1</span><span class="hljs-built_in">j</span> * aky);<br>    <br>    <span class="hljs-comment">%% vally K = (4 * pi / (3 * sqrt(3)), 0)</span><br>    HK_ham = <span class="hljs-built_in">diag</span>(on_site_params);<br>    HK_ham(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>) = gamma1;<br>    HK_ham(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) = gamma1;<br>    <br>    HK_ham(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) = <span class="hljs-built_in">conj</span>(h0);<br>    HK_ham(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>) = - <span class="hljs-built_in">conj</span>(h4);<br>    HK_ham(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>) = h3;<br>    <br>    HK_ham(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>) = h0;<br>    HK_ham(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>) = - <span class="hljs-built_in">conj</span>(h4);<br>    <br>    HK_ham(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>) = - h4;<br>    HK_ham(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>) = <span class="hljs-built_in">conj</span>(h0);<br>    <br>    HK_ham(<span class="hljs-number">4</span>,<span class="hljs-number">1</span>) = <span class="hljs-built_in">conj</span>(h3);<br>    HK_ham(<span class="hljs-number">4</span>,<span class="hljs-number">2</span>) = - h4;<br>    HK_ham(<span class="hljs-number">4</span>,<span class="hljs-number">3</span>) = h0;<br>    <br>    <span class="hljs-comment">%% 检查厄米性</span><br>    hem = helper_check_hermite(HK_ham, <span class="hljs-number">1e-8</span>);<br>    <span class="hljs-keyword">if</span> hem == <span class="hljs-number">0</span><br>      <span class="hljs-built_in">disp</span>(<span class="hljs-string">&quot;monolayer Ham is not hermitian&quot;</span>)<br>    <span class="hljs-keyword">end</span><br>    <br>    <span class="hljs-comment">%% vally Kp = (-4 * pi / (3 * sqrt(3)), 0)</span><br>    HKp_ham = <span class="hljs-built_in">diag</span>(on_site_params);<br>    HKp_ham(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>) = gamma1;<br>    HKp_ham(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) = gamma1;<br>    <br>    HKp_ham(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) = - h0;<br>    HKp_ham(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>) = h4;<br>    HKp_ham(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>) = - <span class="hljs-built_in">conj</span>(h3);<br>    <br>    HKp_ham(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>) = - <span class="hljs-built_in">conj</span>(h0);<br>    HKp_ham(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>) = h4;<br>    <br>    HKp_ham(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>) = <span class="hljs-built_in">conj</span>(h4);<br>    HKp_ham(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>) = - h0;<br>    <br>    HKp_ham(<span class="hljs-number">4</span>,<span class="hljs-number">1</span>) = - h3;<br>    HKp_ham(<span class="hljs-number">4</span>,<span class="hljs-number">2</span>) = <span class="hljs-built_in">conj</span>(h4);<br>    HKp_ham(<span class="hljs-number">4</span>,<span class="hljs-number">3</span>) = - <span class="hljs-built_in">conj</span>(h0);<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+    </div>
+</div>
+</li>
+<li>
+<p>Load data</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        LOAD DATA
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 读取hdf5文件中的数据</span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>hopping_params_before = h5read(<span class="hljs-string">&#x27;hopping_parameters.h5&#x27;</span>, <span class="hljs-string">&#x27;/hopping_parameters_before&#x27;</span>);<br><span class="hljs-comment">% 转化为meV单位</span><br>hopping_params_before = hopping_params_before * <span class="hljs-number">1000</span>;<br><span class="hljs-comment">% 具体赋值</span><br>gamma0 = hopping_params_before(<span class="hljs-number">1</span>);<br>gamma1 = hopping_params_before(<span class="hljs-number">2</span>);<br>gamma2 = hopping_params_before(<span class="hljs-number">3</span>);<br>gamma3 = hopping_params_before(<span class="hljs-number">4</span>);  <br>gamma4 = hopping_params_before(<span class="hljs-number">5</span>);<br>gamma5 = hopping_params_before(<span class="hljs-number">6</span>);<br>delta = hopping_params_before(<span class="hljs-number">7</span>);<br>Delta2 = hopping_params_before(<span class="hljs-number">8</span>);<br></code></pre></td></tr></table></figure>
+
+    </div>
+</div>
+</li>
+<li>
+<p>Parameters setup</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        Parameters Setup
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs matlab">Delta1 = <span class="hljs-number">75</span>;<br><br>N_kx = <span class="hljs-number">101</span>;<br>akx_start = <span class="hljs-number">-0.1</span>;<br>akx_end = <span class="hljs-number">0.1</span>;<br>akx_list = <span class="hljs-built_in">linspace</span>(akx_start, akx_end, N_kx); <span class="hljs-comment">% 创建akx_list</span><br><br>N_ky = <span class="hljs-number">101</span>;<br>aky_start = <span class="hljs-number">-0.1</span>;<br>aky_end = <span class="hljs-number">0.1</span>;<br>aky_list = <span class="hljs-built_in">linspace</span>(aky_start, aky_end, N_ky); <span class="hljs-comment">% 创建akx_list</span><br><br><span class="hljs-comment">% 存放本征值</span><br>eig_enes_K = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>);<br>eig_enes_Kp = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>);<br><br><span class="hljs-comment">% 存放本征态(虽然可能会稍微有点大) ===&gt; 可以用来计算 宇称分布 / 层分布</span><br>eig_vecs_K = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>, <span class="hljs-number">6</span>);<br>eig_vecs_Kp = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>, <span class="hljs-number">6</span>);<br></code></pre></td></tr></table></figure>
+
+    </div>
+</div>
+</li>
+<li>
+<p>calculate the eigenstates / eigenvalues</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        eigen calculation
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 计算本征态/本征值</span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:N_kx<br>    akx = akx_list(<span class="hljs-built_in">i</span>);<br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:N_ky<br>        aky = aky_list(<span class="hljs-built_in">j</span>);<br><br>        [HK_m_ham, HKp_m_ham, HK_b_ham, HKp_b_ham] = ...<br>            construct_trilayer_ABA_six_bands_continuum_model(...<br>                gamma0, gamma1, gamma2, gamma3, gamma4, gamma5, ...<br>                delta, Delta2, akx, aky ...<br>            );<br>        <span class="hljs-keyword">if</span> Delta1 == <span class="hljs-number">0</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% K valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            [Vm_K, D] = eig(HK_m_ham);<br>            eig_enes_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>) = <span class="hljs-built_in">diag</span>(D);<br>            eig_vecs_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>) = Vm_K;<br>            [Vb_K, D] = eig(HK_b_ham);<br>            eig_enes_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>) = <span class="hljs-built_in">diag</span>(D);<br>            eig_vecs_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>) = Vb_K;<br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% Kp valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            [Vm_Kp, D] = eig(HKp_m_ham);<br>            eig_enes_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>) = <span class="hljs-built_in">diag</span>(D);<br>            eig_vecs_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>) = Vm_Kp;<br>            [Vb_Kp, D] = eig(HKp_b_ham);<br>            eig_enes_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>) = <span class="hljs-built_in">diag</span>(D);<br>            eig_vecs_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>) = Vb_Kp;<br>        <span class="hljs-keyword">else</span><br>            Delta1_mat = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>);<br>            Delta1_mat(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>) = Delta1;<br>            Delta1_mat(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>) = Delta1;<br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% K valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            HK_ham = [HK_m_ham, Delta1_mat; Delta1_mat&#x27;, HK_b_ham];<br>            [V_K, D] = eig(HK_ham);<br>            eig_enes_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, :) = <span class="hljs-built_in">diag</span>(D);<br>            eig_vecs_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, :, :) = V_K;<br>            <br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% Kp valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            HKp_ham = [HKp_m_ham, Delta1_mat; Delta1_mat&#x27;, HKp_b_ham];<br>            [V_Kp, D] = eig(HKp_ham);<br>            eig_enes_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, :) = <span class="hljs-built_in">diag</span>(D);<br>            eig_vecs_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, :, :) = V_Kp;<br>        <span class="hljs-keyword">end</span><br><br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+    </div>
+</div>
+</li>
+<li>
+<p>calculate the parity / layer distribution by eigenvectos</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        parity / layer distribution
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">% 颜色</span><br>red_RGB = [<span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>]; <span class="hljs-comment">% 红色对应单层</span><br>green_RGB = [<span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span>];<br>blue_RGB = [<span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span>]; <span class="hljs-comment">% 蓝色对应双层</span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 每个本征态对应的宇称成分</span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>eig_parity_K = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>, <span class="hljs-number">3</span>);<br>eig_parity_Kp = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>, <span class="hljs-number">3</span>);<br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 每个本征态对应的层分布</span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>eig_layer_K = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>, <span class="hljs-number">3</span>);<br>eig_layer_Kp = <span class="hljs-built_in">zeros</span>(N_ky, N_kx, <span class="hljs-number">6</span>, <span class="hljs-number">3</span>);<br><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:N_kx<br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:N_ky<br>        V_K = <span class="hljs-built_in">squeeze</span>(eig_vecs_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, :, :));<br>        V_Kp = <span class="hljs-built_in">squeeze</span>(eig_vecs_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, :, :));<br>        <span class="hljs-keyword">if</span> Delta1 == <span class="hljs-number">0</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% K valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% calculate parity</span><br>            eig_parity_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>, :) = [red_RGB; red_RGB];<br>            eig_parity_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>, :) = [blue_RGB; blue_RGB; blue_RGB; blue_RGB];<br>            <br>            <span class="hljs-comment">% calculate layer distribution</span><br>            V_K = [Vm_K, <span class="hljs-built_in">zeros</span>(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>);<span class="hljs-built_in">zeros</span>(<span class="hljs-number">4</span>,<span class="hljs-number">2</span>), Vb_K];<br>            <span class="hljs-comment">% layer 1 sites</span><br>            prob_K_layer1_mat = transpose(V_K) * [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <span class="hljs-comment">% layer 2 sites</span><br>            prob_K_layer2_mat = transpose(V_K) * [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br>            <span class="hljs-comment">% layer 3 sites</span><br>            prob_K_layer3_mat = transpose(V_K) * [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <br>            <span class="hljs-comment">% 存入矩阵中</span><br>            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">6</span><br>                <span class="hljs-comment">% layer 1</span><br>                eig_layer_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">1</span>) = (<span class="hljs-built_in">abs</span>(prob_K_layer1_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_K_layer1_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 2</span><br>                eig_layer_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">2</span>) = (<span class="hljs-built_in">abs</span>(prob_K_layer2_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_K_layer2_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 3</span><br>                eig_layer_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">3</span>) = (<span class="hljs-built_in">abs</span>(prob_K_layer3_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_K_layer3_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">end</span><br>            <br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% Kp valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% calculate parity</span><br>            eig_parity_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>, :) = [red_RGB; red_RGB];<br>            eig_parity_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, <span class="hljs-number">3</span>:<span class="hljs-number">6</span>, :) = [blue_RGB; blue_RGB; blue_RGB; blue_RGB];<br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% calculate layer distribution</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            V_Kp = [Vm_Kp, <span class="hljs-built_in">zeros</span>(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>);<span class="hljs-built_in">zeros</span>(<span class="hljs-number">4</span>,<span class="hljs-number">2</span>), Vb_Kp];<br>            <span class="hljs-comment">% layer 1 sites</span><br>            prob_Kp_layer1_mat = transpose(V_Kp) * [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <br>            <span class="hljs-comment">% layer 2 sites</span><br>            prob_Kp_layer2_mat = transpose(V_Kp) * [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br>            <br>            <span class="hljs-comment">% layer 3 sites</span><br>            prob_Kp_layer3_mat = transpose(V_Kp) * [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <br>            <span class="hljs-comment">% 存入矩阵中</span><br>            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">6</span><br>                <span class="hljs-comment">% layer 1</span><br>                eig_layer_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">1</span>) = (<span class="hljs-built_in">abs</span>(prob_Kp_layer1_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_Kp_layer1_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 2</span><br>                eig_layer_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">2</span>) = (<span class="hljs-built_in">abs</span>(prob_Kp_layer2_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_Kp_layer2_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 3</span><br>                eig_layer_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">3</span>) = (<span class="hljs-built_in">abs</span>(prob_Kp_layer3_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_Kp_layer3_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">end</span><br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% K valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% calculate parity</span><br>            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">6</span><br>                red_weight = sum(<span class="hljs-built_in">abs</span>(V_K(<span class="hljs-number">1</span>:<span class="hljs-number">2</span>, k)).^<span class="hljs-number">2</span>);<br>                blue_weight = sum(<span class="hljs-built_in">abs</span>(V_K(<span class="hljs-number">3</span>:<span class="hljs-number">6</span>, k)).^<span class="hljs-number">2</span>);<br>                eig_parity_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, :) = red_RGB * red_weight + blue_RGB * blue_weight;<br>            <span class="hljs-keyword">end</span><br>            <br>            <span class="hljs-comment">% calculate layer distribution</span><br>            <span class="hljs-comment">% layer 1 sites</span><br>            prob_K_layer1_mat = transpose(V_K) * [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <span class="hljs-comment">% layer 2 sites</span><br>            prob_K_layer2_mat = transpose(V_K) * [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br>            <span class="hljs-comment">% layer 3 sites</span><br>            prob_K_layer3_mat = transpose(V_K) * [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <br>            <span class="hljs-comment">% 存入矩阵中</span><br>            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">6</span><br>                <span class="hljs-comment">% layer 1</span><br>                eig_layer_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">1</span>) = (<span class="hljs-built_in">abs</span>(prob_K_layer1_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_K_layer1_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 2</span><br>                eig_layer_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">2</span>) = (<span class="hljs-built_in">abs</span>(prob_K_layer2_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_K_layer2_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 3</span><br>                eig_layer_K(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">3</span>) = (<span class="hljs-built_in">abs</span>(prob_K_layer3_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_K_layer3_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">end</span><br>            <br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% Kp valley 的计算</span><br>            <span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br>            <span class="hljs-comment">% calculate parity</span><br>            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">6</span><br>                red_weight = sum(<span class="hljs-built_in">abs</span>(V_Kp(<span class="hljs-number">1</span>:<span class="hljs-number">2</span>, k)).^<span class="hljs-number">2</span>);<br>                blue_weight = sum(<span class="hljs-built_in">abs</span>(V_Kp(<span class="hljs-number">3</span>:<span class="hljs-number">6</span>, k)).^<span class="hljs-number">2</span>);<br>                eig_parity_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, :) = red_RGB * red_weight + blue_RGB * blue_weight;<br>            <span class="hljs-keyword">end</span><br>            <br>            <span class="hljs-comment">% calculate layer distribution</span><br>            <span class="hljs-comment">% layer 1 sites</span><br>            prob_Kp_layer1_mat = transpose(V_Kp) * [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <span class="hljs-comment">% layer 2 sites</span><br>            prob_Kp_layer2_mat = transpose(V_Kp) * [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br>            <span class="hljs-comment">% layer 3 sites</span><br>            prob_Kp_layer3_mat = transpose(V_Kp) * [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">0</span>] * <span class="hljs-number">1</span> / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>);<br>            <br>            <span class="hljs-comment">% 存入矩阵中</span><br>            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">6</span><br>                <span class="hljs-comment">% layer 1</span><br>                eig_layer_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">1</span>) = (<span class="hljs-built_in">abs</span>(prob_Kp_layer1_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_Kp_layer1_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 2</span><br>                eig_layer_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">2</span>) = (<span class="hljs-built_in">abs</span>(prob_Kp_layer2_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_Kp_layer2_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>                <span class="hljs-comment">% layer 3</span><br>                eig_layer_Kp(<span class="hljs-built_in">j</span>, <span class="hljs-built_in">i</span>, k, <span class="hljs-number">3</span>) = (<span class="hljs-built_in">abs</span>(prob_Kp_layer3_mat(k, <span class="hljs-number">1</span>)))^<span class="hljs-number">2</span> + (<span class="hljs-built_in">abs</span>(prob_Kp_layer3_mat(k, <span class="hljs-number">2</span>)))^<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">end</span><br>        <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+    </div>
+</div>
+</li>
+<li>
+<p>Visualization (3D surface &amp; contour of Fermi surface topology)</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        Visualization
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% K valley hole side </span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 三维图 (仅包含双层)</span><br>eig_index = <span class="hljs-number">3</span>;<br><span class="hljs-built_in">figure</span><br>set(gca,<span class="hljs-string">&#x27;FontName&#x27;</span>,<span class="hljs-string">&#x27;Times New Roman&#x27;</span>,<span class="hljs-string">&#x27;FontSize&#x27;</span>,<span class="hljs-number">7</span>);<br>[akx_mesh, aky_mesh] = <span class="hljs-built_in">meshgrid</span>(akx_list, aky_list);<br>surf(akx_mesh, aky_mesh, eig_enes_K(:,:,eig_index), <span class="hljs-built_in">squeeze</span>(eig_layer_K(:,:,eig_index,:)), <span class="hljs-string">&#x27;FaceAlpha&#x27;</span>,<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;EdgeColor&#x27;</span>, <span class="hljs-string">&#x27;interp&#x27;</span>);<br><span class="hljs-built_in">hold</span> on<br>shading interp <span class="hljs-comment">% 去掉曲面上的网格</span><br>camlight <span class="hljs-comment">% 添加光照，使得曲面更立体</span><br>lighting phong <span class="hljs-comment">% 哑光效果，去除表面“纹路”</span><br>zlim([<span class="hljs-number">-30</span>, <span class="hljs-number">30</span>]);<br><br><span class="hljs-comment">% find gully points</span><br>[hole_peak_value_list, hole_peak_location_list] = find_lcm_matrix(<span class="hljs-built_in">squeeze</span>(eig_enes_K(:,:,eig_index)));<br>hole_Nx = <span class="hljs-number">4</span>;<br>hole_Ny = <span class="hljs-number">4</span>;<br>hole_ene_delta = <span class="hljs-number">1</span>; <span class="hljs-comment">% 1meV的能量间隔</span><br>hole_ene_start = <span class="hljs-number">-1.5</span>;<br>hole_ene_level_list = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">1</span>, hole_Nx * hole_Ny);<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:hole_Nx * hole_Ny<br>    hole_ene_level_list(<span class="hljs-built_in">i</span>) = hole_ene_start - (<span class="hljs-built_in">i</span> - <span class="hljs-number">1</span>) * hole_ene_delta;<br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% 等高线 (仅包含双层)</span><br><span class="hljs-built_in">figure</span><br>set(gcf, <span class="hljs-string">&#x27;unit&#x27;</span>, <span class="hljs-string">&#x27;inch&#x27;</span>, <span class="hljs-string">&#x27;position&#x27;</span>, [<span class="hljs-number">10</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10.00</span>, <span class="hljs-number">8.00</span>]) <span class="hljs-comment">% figure</span><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:hole_Nx * hole_Ny<br>    subplot(hole_Nx, hole_Ny, <span class="hljs-built_in">i</span>)<br>    <span class="hljs-comment">% contour(akx_list, aky_list, eig_enes_K(:,:,i), &quot;ShowText&quot;,true, &#x27;LevelList&#x27;, ene_level_list(i))</span><br>    contour(akx_list, aky_list, eig_enes_K(:,:,eig_index), <span class="hljs-string">&#x27;LevelList&#x27;</span>, hole_ene_level_list(<span class="hljs-built_in">i</span>))<br><span class="hljs-keyword">end</span><br>第二部分 : K谷电子部分<br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% K valley electron side </span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 三维图 (仅包含双层)</span><br>eig_index = <span class="hljs-number">4</span>;<br><span class="hljs-built_in">figure</span><br>set(gca,<span class="hljs-string">&#x27;FontName&#x27;</span>,<span class="hljs-string">&#x27;Times New Roman&#x27;</span>,<span class="hljs-string">&#x27;FontSize&#x27;</span>,<span class="hljs-number">7</span>);<br>[akx_mesh, aky_mesh] = <span class="hljs-built_in">meshgrid</span>(akx_list, aky_list);<br>surf(akx_mesh, aky_mesh, eig_enes_K(:,:,eig_index), <span class="hljs-built_in">squeeze</span>(eig_layer_K(:,:,eig_index,:)), <span class="hljs-string">&#x27;FaceAlpha&#x27;</span>,<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;EdgeColor&#x27;</span>, <span class="hljs-string">&#x27;interp&#x27;</span>);<br>shading interp <span class="hljs-comment">% 去掉曲面上的网格</span><br>camlight <span class="hljs-comment">% 添加光照，使得曲面更立体</span><br>lighting phong <span class="hljs-comment">% 哑光效果，去除表面“纹路”</span><br>zlim([<span class="hljs-number">-30</span>, <span class="hljs-number">30</span>]);<br>view(<span class="hljs-number">3</span>)<br><br><span class="hljs-comment">% 等高线 (仅包含双层)</span><br>[ele_peak_value_list, ele_peak_location_list] = find_lcm_matrix(<span class="hljs-built_in">squeeze</span>(-eig_enes_K(:,:,eig_index)));<br>ele_peak_value_list = - ele_peak_value_list;<br>ele_Nx = <span class="hljs-number">4</span>;<br>ele_Ny = <span class="hljs-number">4</span>;<br>ele_ene_delta = <span class="hljs-number">1</span>; <span class="hljs-comment">% 1meV的能量间隔</span><br>ele_ene_start = <span class="hljs-number">4.5</span>;<br>ele_ene_level_list = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">1</span>, hole_Nx * hole_Ny);<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:ele_Nx * ele_Ny<br>    ele_ene_level_list(<span class="hljs-built_in">i</span>) = ele_ene_start + (<span class="hljs-built_in">i</span> - <span class="hljs-number">1</span>) * ele_ene_delta;<br><span class="hljs-keyword">end</span><br><span class="hljs-built_in">figure</span><br>set(gcf, <span class="hljs-string">&#x27;unit&#x27;</span>, <span class="hljs-string">&#x27;inch&#x27;</span>, <span class="hljs-string">&#x27;position&#x27;</span>, [<span class="hljs-number">10</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10.00</span>, <span class="hljs-number">8.00</span>]) <span class="hljs-comment">% figure</span><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:ele_Nx * ele_Ny<br>    subplot(ele_Nx, ele_Ny, <span class="hljs-built_in">i</span>)<br>    <span class="hljs-comment">% contour(akx_list, aky_list, eig_enes_K(:,:,i), &quot;ShowText&quot;,true, &#x27;LevelList&#x27;, ene_level_list(i))</span><br>    contour(akx_list, aky_list, eig_enes_K(:,:,eig_index), <span class="hljs-string">&#x27;LevelList&#x27;</span>, ele_ene_level_list(<span class="hljs-built_in">i</span>))<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+<p>其中我们会用到find_lcm_matrix这个自定义函数，它的功能是找出一个二维数组中的极大值：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-comment">% 找到二维矩阵中的所有极小值</span><br><span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[peak_value_list, peak_location_list]</span> = <span class="hljs-title">find_lcm_matrix</span><span class="hljs-params">(mat)</span></span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">length</span>(<span class="hljs-built_in">size</span>(mat)) &gt; <span class="hljs-number">2</span><br>        peak_value_list = [];<br>        peak_location_list = [];<br>        <span class="hljs-built_in">disp</span>(<span class="hljs-string">&quot;维度问题&quot;</span>)<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">end</span><br>    <br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">length</span>(<span class="hljs-built_in">size</span>(mat)) &lt; <span class="hljs-number">1</span><br>        peak_value_list = [];<br>        peak_location_list = [];<br>        <span class="hljs-built_in">disp</span>(<span class="hljs-string">&quot;维度问题&quot;</span>)<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">end</span><br>    <br>    <span class="hljs-comment">% 搜索极值点，边界不考虑</span><br>    peak_value_list = [];<br>    peak_location_list = [];<br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">2</span>:(<span class="hljs-built_in">size</span>(mat, <span class="hljs-number">1</span>) - <span class="hljs-number">1</span>)<br>        temp_vec = <span class="hljs-built_in">squeeze</span>(mat(<span class="hljs-built_in">i</span>, :));<br>        [temp_pk_list,temp_lc_list] = findpeaks(temp_vec);<br>        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(temp_lc_list)<br>            temp_lc = temp_lc_list(<span class="hljs-built_in">j</span>);<br>            temp_pk = temp_pk_list(<span class="hljs-built_in">j</span>);<br>            flag_<span class="hljs-built_in">true</span> = (temp_pk &gt; mat(<span class="hljs-built_in">i</span> + <span class="hljs-number">1</span>, temp_lc)) &amp; (temp_pk &gt; mat(<span class="hljs-built_in">i</span> - <span class="hljs-number">1</span>, temp_lc));<br>            <span class="hljs-keyword">if</span> flag_<span class="hljs-built_in">true</span> <span class="hljs-comment">% 找到一个local maximum</span><br>                peak_value_list = [peak_value_list; temp_pk];<br>                peak_location_list = [peak_location_list; [<span class="hljs-built_in">i</span>, temp_lc]];<br>            <span class="hljs-keyword">end</span><br>        <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+    </div>
+</div>
+</li>
+<li>
+<p>result with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub><mo>=</mo><mn>200</mn><mi>m</mi><mi>e</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta_1 = 200meV</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">200</span><span class="mord mathnormal">m</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span></p>
+<center> the emergent gullies in the low energy regime </center>
+</li>
+</ol>
+<p><img src="/img/post_imgs/ABA-tLG_sim/fermi_suface_3D_before.svg" srcset="/img/loading.gif" lazyload alt="fermi_suface_3D_before"></p>
+<center>the evolution of Fermi surface on the electron side</center>
+<p><img src="/img/post_imgs/ABA-tLG_sim/fermi_suface_electron_before.svg" srcset="/img/loading.gif" lazyload alt="fermi_suface_electron_before"></p>
+<center>the evolution of Fermi surface on the hole side</center>
+<p><img src="/img/post_imgs/ABA-tLG_sim/fermi_suface_hole_before.svg" srcset="/img/loading.gif" lazyload alt="fermi_suface_hole_before"></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Single-Particle-Simulation/" class="category-chain-item">Single-Particle Simulation</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Graphene/">#Graphene</a>
+      
+        <a href="/tags/Band-Structure/">#Band_Structure</a>
+      
+        <a href="/tags/Landau-Level-Calculation/">#Landau_Level_Calculation</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>some codes about ABA-TLG</div>
+      <div>http://example.com/2023/04/26/ABA_tLG_sim/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Shijie Fang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 26, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/26/image_plot_matlab/" title="Image Plot Using MATLAB">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Image Plot Using MATLAB</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/26/FEM_simple/" title="simple codes on finite element method">
+                        <span class="hidden-mobile">simple codes on finite element method</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'great-history/commit_repository');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('mermaid' in window) {
+        mermaid.init();
+      }
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":120,"height":200,"position":"left","hOffset":20,"vOffset":50},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -16,25 +16,21 @@
   <meta name="author" content="Shijie Fang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Intro">
+    <meta name="description" content="read 3ds file using MATLAB &#x2F; Python Lawler-Fujita Algorithm for STM image process 1234567891011121314151617#################################### load data from 3ds file#################################">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Monolayer Graphene">
-<meta property="og:url" content="http://example.com/2023/04/26/MLG/index.html">
+<meta property="og:title" content="Lawyer-Fujita Algorithm">
+<meta property="og:url" content="http://example.com/2023/04/26/stm_image_process/index.html">
 <meta property="og:site_name" content="Shijie Fang&#39;s Blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Intro">
+<meta property="og:description" content="read 3ds file using MATLAB &#x2F; Python Lawler-Fujita Algorithm for STM image process 1234567891011121314151617#################################### load data from 3ds file#################################">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/post_imgs/MLG_banner_img.jpg">
 <meta property="article:published_time" content="2023-04-26T12:11:01.000Z">
-<meta property="article:modified_time" content="2023-05-01T11:18:07.347Z">
+<meta property="article:modified_time" content="2023-08-01T01:40:12.353Z">
 <meta property="article:author" content="Shijie Fang">
-<meta property="article:tag" content="Graphene">
-<meta property="article:tag" content="Band_Structure">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/post_imgs/MLG_banner_img.jpg">
   
   
   
-  <title>Monolayer Graphene - Shijie Fang&#39;s Blog</title>
+  <title>Lawyer-Fujita Algorithm - Shijie Fang&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -220,13 +216,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/post_imgs/MLG_banner_img.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/spacex_background.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Monolayer Graphene"></span>
+            <span id="subtitle" data-typed-text="Lawyer-Fujita Algorithm"></span>
           
         </div>
 
@@ -249,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k words
+          606 words
         
       </span>
     
@@ -260,7 +256,7 @@
         
         
         
-          10 mins
+          6 mins
         
       </span>
     
@@ -298,43 +294,15 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Monolayer Graphene</h1>
+            <h1 style="display: none">Lawyer-Fujita Algorithm</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Introduction">Introduction</h2>
-<h3 id="Fundamental-Physical-Constants">Fundamental Physical Constants</h3>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">% Constants</span><br>single_electron = <span class="hljs-number">1.602176634</span> * <span class="hljs-number">10</span>^(<span class="hljs-number">-19</span>); <span class="hljs-comment">% C</span><br>vaccum_perm = <span class="hljs-number">8.854187817</span> * <span class="hljs-number">10</span>^(<span class="hljs-number">-12</span>); <span class="hljs-comment">%  F/m</span><br>h_planck = <span class="hljs-number">6.62607015</span> * <span class="hljs-number">10</span>^(<span class="hljs-number">-34</span>); <span class="hljs-comment">% J·s</span><br>quantum_conductance = single_electron^<span class="hljs-number">2</span> / h_planck;<br><span class="hljs-built_in">factor</span> = single_electron / (<span class="hljs-number">2</span> * vaccum_perm); <span class="hljs-comment">% unit is m * V</span><br><span class="hljs-built_in">factor</span> = <span class="hljs-built_in">factor</span> * <span class="hljs-number">10</span>^(<span class="hljs-number">2</span>); <span class="hljs-comment">% unit is cm * V</span><br></code></pre></td></tr></table></figure>
-<h3 id="Construct-MLG-Hamiltonian">Construct MLG Hamiltonian</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<h3 id="进行对角化计算">进行对角化计算</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<h3 id="结果展示">结果展示</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.16em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi mathvariant="normal">∇</mi><mo>⋅</mo><mi mathvariant="bold">E</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mi>ρ</mi><msub><mi>ε</mi><mn>0</mn></msub></mfrac></mstyle></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi mathvariant="normal">∇</mi><mo>⋅</mo><mi mathvariant="bold">E</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>=</mo><mn>0</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi mathvariant="normal">∇</mi><mo>×</mo><mi mathvariant="bold">E</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>=</mo><mo>−</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi mathvariant="normal">∂</mi><mi mathvariant="bold">B</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>t</mi></mrow></mfrac></mstyle></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi mathvariant="normal">∇</mi><mo>×</mo><mi mathvariant="bold">B</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi mathvariant="bold">J</mi><mo>+</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi mathvariant="normal">∂</mi><mi mathvariant="bold">E</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>t</mi></mrow></mfrac></mstyle></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{array}{ll}
-	\nabla \cdot \mathbf{E} &amp;=\cfrac{\rho}{\varepsilon_0} \\
-	\nabla \cdot \mathbf{E} &amp;=0 \\
-	\nabla \times \mathbf{E} &amp;= -\cfrac{\partial \mathbf{B}}{\partial t} \\
-	\nabla \times \mathbf{B} &amp;= \mu_0 \mathbf{J} + 
-			\mu_0 \varepsilon_0 \cfrac{\partial \mathbf{E}}{\partial t}
-\end{array}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:8.178em;vertical-align:-3.839em;"></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.339em;"><span style="top:-6.339em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathbf">E</span></span></span><span style="top:-4.663em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathbf">E</span></span></span><span style="top:-2.713em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathbf">E</span></span></span><span style="top:-0.437em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathbf">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.839em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.339em;"><span style="top:-6.339em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.59em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">ε</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.74em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">ρ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span></span></span></span></span><span style="top:-4.663em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0</span></span></span><span style="top:-2.713em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.59em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.74em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord mathbf">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span></span></span></span></span><span style="top:-0.437em;"><span class="pstrut" style="height:3.59em;"></span><span class="mord"><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathbf">J</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">ε</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.59em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.74em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord mathbf">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.839em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span></span></span></span></span></p>
-
-<pre>
-<code class="mermaid" >
-gantt
-dateFormat  YYYY-MM-DD
-title Adding GANTT diagram to mermaid
-
-section A section
-Completed task            :done,    des1, 2014-01-06,2014-01-08
-Active task               :active,  des2, 2014-01-09, 3d
-Future task               :         des3, after des2, 5d
-Future task2               :         des4, after des3, 5d
-</code>
-</pre>
+                <p>read 3ds file using MATLAB / Python</p>
+<p><a target="_blank" rel="noopener" href="https://www.nature.com/articles/nature09169">Lawler-Fujita Algorithm</a> for STM image process</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">###################################</span><br><span class="hljs-comment"># load data from 3ds file</span><br><span class="hljs-comment">###################################</span><br>filename = <span class="hljs-string">&#x27;mapping--002.3ds&#x27;</span><br>Im = <span class="hljs-number">1j</span><br>grid = nap.read.Grid(filename)<br>size_x = grid.header[<span class="hljs-string">&#x27;size_xy&#x27;</span>][<span class="hljs-number">0</span>]<br>size_y = grid.header[<span class="hljs-string">&#x27;size_xy&#x27;</span>][<span class="hljs-number">1</span>]<br>lines = grid.header[<span class="hljs-string">&#x27;dim_px&#x27;</span>][<span class="hljs-number">0</span>]<br>points = grid.header[<span class="hljs-string">&#x27;dim_px&#x27;</span>][<span class="hljs-number">1</span>]<br>nm_to_m = <span class="hljs-number">10</span>**(-<span class="hljs-number">9</span>)<br>im = grid.signals[<span class="hljs-string">&#x27;topo&#x27;</span>]<br>palette = spiepy.NANOMAP<br>palette.set_bad(<span class="hljs-string">&#x27;r&#x27;</span>,<span class="hljs-number">1.0</span>)<br>fig, ax = plt.subplots()<br>ax.imshow(im, cmap=palette, origin=<span class="hljs-string">&#x27;lower&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
             
@@ -342,36 +310,6 @@ Future task2               :         des4, after des3, 5d
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Single-Particle-Simulation/" class="category-chain-item">Single-Particle Simulation</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Graphene/">#Graphene</a>
-      
-        <a href="/tags/Band-Structure/">#Band_Structure</a>
-      
-    </div>
   
 </div>
 
@@ -381,8 +319,8 @@ Future task2               :         des4, after des3, 5d
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Monolayer Graphene</div>
-      <div>http://example.com/2023/04/26/MLG/</div>
+      <div>Lawyer-Fujita Algorithm</div>
+      <div>http://example.com/2023/04/26/stm_image_process/</div>
     </div>
     <div class="license-meta">
       
@@ -426,12 +364,18 @@ Future task2               :         des4, after des3, 5d
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2023/04/26/data_analysis/" title="Data Analysis (I)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Data Analysis (I)</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/26/ABA_TLG/" title="ABA TLG">
-                        <span class="hidden-mobile">ABA TLG</span>
+                      <a href="/2023/04/26/meas_codes/" title="basic transport measurements using python">
+                        <span class="hidden-mobile">basic transport measurements using python</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
